@@ -228,7 +228,6 @@ def merge_dicts(*dict_args):
         result.update(dictionary)
     return result
 
-
 #######################################
 # Start to simulate
 cycle = 0
@@ -238,13 +237,18 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-for i in range(iterations):
+print(state)
+for cycle in range(iterations):
+    if state == 'DONE':
+        break
+    print(variables['var_A'], variables['var_TH'])
     for j in range(len(fsmd[state])):
         if evaluate_condition(fsmd[state][j]['condition']):
             execute_instruction(fsmd[state][j]['instruction'])
-            
-        
-
+            state = fsmd[state][j]['nextstate']
+            print(state)
+            break
+#FIND UD AF AT FÅ PRINT STATEMENTS TIL AT VIRKE BEDRE    
 ######################################
 ######################################
 
