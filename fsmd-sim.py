@@ -238,7 +238,13 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-# Write your code here!
+for i in range(iterations):
+    for j in range(len(fsmd[state])):
+        if evaluate_condition(fsmd[state][j]['condition']):
+            execute_instruction(fsmd[state][j]['instruction'])
+            
+        
+
 ######################################
 ######################################
 
