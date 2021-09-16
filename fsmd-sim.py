@@ -252,6 +252,8 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
+
+
 print('At simulation start the status is: \n Variables:')
 for i in range(len(variables)):
     print('   ' + list(variables.keys())[i] + ': ' +str(variables[list(variables.keys())[i]]))
@@ -269,7 +271,8 @@ for cycle in range(iterations): #For-loop of cycles
     if state == 'DONE' and nextstate == 'DONE':
         break
     state = nextstate
-#FIND UD AF AT FÅ PRINT STATEMENTS TIL AT VIRKE BEDRE    
+    
+    
 ######################################
 ######################################
 print('\n---End of simulation---')
