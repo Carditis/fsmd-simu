@@ -228,30 +228,46 @@ def merge_dicts(*dict_args):
         result.update(dictionary)
     return result
 
+def print_function(cycle, state, inputs, j, conditions, variables):
+    print('Cycle: ' + str(cycle))
+    print('Current State: ' + str(state))
+    if len(inputs) != 0:
+        print('Inputs:')
+        for i in range(len(inputs)):
+            print('  ' + list(inputs.keys())[i] + str(inputs[list(inputs.keys())[i]]))
+    print('The true conditions is: ' + list(conditions)[j])
+    print('Executing instruction: ' + fsmd[state][j]['instruction'])
+    print('Next state is: ' + fsmd[state][j]['nextstate'])
+    print('Status at end of cycle: \n Variables: ')
+    for i in range(len(variables)):
+        print('   ' + list(variables.keys())[i] + ': ' +str(variables[list(variables.keys())[i]]))
+    print('------------------------------------')
 #######################################
 # Start to simulate
 cycle = 0
 state = initial_state
+nextstate = ''
 
 print('\n---Start simulation---')
 
 ######################################
 ######################################
-print(state)
-for cycle in range(iterations):
-    if state == 'DONE':
-        break
-    print(variables['var_A'], variables['var_TH'])
-    for j in range(len(fsmd[state])):
+print('At simulation start the status is: \n Variables:')
+for i in range(len(variables)):
+    print('   ' + list(variables.keys())[i] + ': ' +str(variables[list(variables.keys())[i]]))
+print('State at simulation start: ' + state + '\n -----------------------------------')
+for cycle in range(iterations): #For-loop of cycles
+    for j in range(len(fsmd[state])): #For-loop of conditions
         if evaluate_condition(fsmd[state][j]['condition']):
             execute_instruction(fsmd[state][j]['instruction'])
+            print_function(cycle, state, inputs, j, conditions, variables)
             state = fsmd[state][j]['nextstate']
-            print(state)
             break
+    if state == 'DONE':
+        break
 #FIND UD AF AT FÅ PRINT STATEMENTS TIL AT VIRKE BEDRE    
 ######################################
 ######################################
-
 print('\n---End of simulation---')
 
 #
