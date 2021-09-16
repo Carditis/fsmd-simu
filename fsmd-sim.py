@@ -258,13 +258,13 @@ for i in range(len(variables)):
 print('State at simulation start: ' + state + '\n -----------------------------------')
 for cycle in range(iterations): #For-loop of cycles
     for j in range(len(fsmd[state])): #For-loop of conditions
+        if state == 'DONE':
+            break
         if evaluate_condition(fsmd[state][j]['condition']):
             execute_instruction(fsmd[state][j]['instruction'])
             print_function(cycle, state, inputs, j, conditions, variables)
             state = fsmd[state][j]['nextstate']
             break
-    if state == 'DONE':
-        break
 #FIND UD AF AT FÅ PRINT STATEMENTS TIL AT VIRKE BEDRE    
 ######################################
 ######################################
