@@ -2,12 +2,12 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_A = 100</expression>
+    <expression>in_A = 14</expression>
   </setinput>
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_B = 12</expression>
+    <expression>in_B = 6</expression>
   </setinput>
 
   <setinput>
