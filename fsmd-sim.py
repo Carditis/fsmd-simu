@@ -259,6 +259,22 @@ for i in range(len(variables)):
     print('   ' + list(variables.keys())[i] + ': ' +str(variables[list(variables.keys())[i]]))
 print('State at simulation start: ' + state + '\n -----------------------------------')
 for cycle in range(iterations): #For-loop of cycles
+    
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
+            for setinput in fsmd_stim['fsmdstimulus']['setinput']:
+                if type(setinput) is str:
+                    #Only one element
+                    if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
+                        execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
+                    break
+                else:
+                    #More than 1 element
+                    if int(setinput['cycle']) == cycle:
+                        execute_setinput(setinput['expression'])
+    except:
+        pass
+
     for j in range(len(fsmd[state])): #For-loop of conditions
         if evaluate_condition(fsmd[state][j]['condition']):
             execute_instruction(fsmd[state][j]['instruction'])
@@ -272,7 +288,7 @@ for cycle in range(iterations): #For-loop of cycles
         if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
             if state == fsmd_stim['fsmdstimulus']['endstate']:
                 print('End-state reached.')
-                repeat = False
+                break
     except:
         pass
     state = nextstate
