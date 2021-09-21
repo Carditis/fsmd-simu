@@ -234,7 +234,7 @@ def print_function(cycle, state, inputs, j, nextstate, conditions, variables):
     if len(inputs) != 0:
         print('Inputs:')
         for i in range(len(inputs)):
-            print('  ' + list(inputs.keys())[i] + str(inputs[list(inputs.keys())[i]]))
+            print('  ' + list(inputs.keys())[i] + ': ' + str(inputs[list(inputs.keys())[i]]))
     print('The true conditions is: ' + list(conditions)[j])
     print('Executing instruction: ' + fsmd[state][j]['instruction'])
     print('Next state is: ' + nextstate)
@@ -268,8 +268,13 @@ for cycle in range(iterations): #For-loop of cycles
             nextstate = fsmd[state][k]['nextstate']
             break
     print_function(cycle, state, inputs, j, nextstate, conditions, variables)
-    if state == 'DONE' and nextstate == 'DONE':
-        break
+    try:
+        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
+            if state == fsmd_stim['fsmdstimulus']['endstate']:
+                print('End-state reached.')
+                repeat = False
+    except:
+        pass
     state = nextstate
     
     
