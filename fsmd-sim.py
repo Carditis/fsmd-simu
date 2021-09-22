@@ -235,7 +235,7 @@ def print_function(cycle, state, inputs, j, nextstate, conditions, variables):
         print('Inputs:')
         for i in range(len(inputs)):
             print('  ' + list(inputs.keys())[i] + ': ' + str(inputs[list(inputs.keys())[i]]))
-    print('The true conditions is: ' + list(conditions)[j])
+    print('The true conditions is: ' + fsmd[state][j]['condition'])
     print('Executing instruction: ' + fsmd[state][j]['instruction'])
     print('Next state is: ' + nextstate)
     print('Status at end of cycle: \n Variables: ')
