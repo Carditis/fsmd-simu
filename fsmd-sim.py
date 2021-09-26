@@ -277,8 +277,8 @@ for cycle in range(iterations): #For-loop of cycles
 
     for j in range(len(fsmd[state])): #For-loop of conditions
         if evaluate_condition(fsmd[state][j]['condition']):
-            nextstate = fsmd[state][j]['nextstate']
             execute_instruction(fsmd[state][j]['instruction'])
+            nextstate = fsmd[state][j]['nextstate']
             break
         
     print_function(cycle, state, inputs, j, nextstate, conditions, variables)
