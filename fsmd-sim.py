@@ -281,9 +281,10 @@ for cycle in range(iterations): #For-loop of cycles
 
     for j in range(len(fsmd[state])): #For-loop of conditions
 
+
         if evaluate_condition(fsmd[state][j]['condition']):     #the current true condition is found
-            nextstate = fsmd[state][j]['nextstate']             #so the right nextstate can be determined
-            execute_instruction(fsmd[state][j]['instruction'])  #and the right instruction is executed
+            execute_instruction(fsmd[state][j]['instruction'])  #so the right instruction is executed
+            nextstate = fsmd[state][j]['nextstate']             #and the nextstate is determined
             break
         
     print_function(cycle, state, inputs, j, nextstate, conditions, variables)
