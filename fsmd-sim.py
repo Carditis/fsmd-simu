@@ -238,7 +238,7 @@ def print_function(cycle, state, inputs, j, nextstate, conditions, variables): #
         print('Inputs:')
         for i in range(len(inputs)):
             print('  ' + list(inputs.keys())[i] + ': ' + str(inputs[list(inputs.keys())[i]]))
-    print('The true conditions is: ' + fsmd[state][j]['condition'])
+    print('The true condition is: ' + fsmd[state][j]['condition'])
     print('Executing instruction: ' + fsmd[state][j]['instruction'])
     print('Next state is: ' + nextstate)
     print('Status at end of cycle: \n Variables: ')
@@ -280,14 +280,14 @@ for cycle in range(iterations): #For-loop of cycles
         pass
 
     for j in range(len(fsmd[state])): #For-loop of conditions
+
         if evaluate_condition(fsmd[state][j]['condition']):     #the current true condition is found
-            execute_instruction(fsmd[state][j]['instruction'])  #so the right instruction is executed
-            break                                               #the nextstate will not be updated yet
-    for k in range(len(fsmd[state])):                           #as the true condition could have changed
-        if evaluate_condition(fsmd[state][k]['condition']):     #so the current true condition is cheched again
-            nextstate = fsmd[state][k]['nextstate']             #so the right nextstate can be determined
+            nextstate = fsmd[state][j]['nextstate']             #so the right nextstate can be determined
+            execute_instruction(fsmd[state][j]['instruction'])  #and the right instruction is executed
             break
-    print_function(cycle, state, inputs, j, nextstate, conditions, variables) #this is function for printing ;-)
+        
+    print_function(cycle, state, inputs, j, nextstate, conditions, variables)
+    
     try:
         if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)): #endstates can be specified but are not necessary
             if state == fsmd_stim['fsmdstimulus']['endstate']:   #the program will keep running with/out them
