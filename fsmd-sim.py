@@ -228,7 +228,10 @@ def merge_dicts(*dict_args):
         result.update(dictionary)
     return result
 
-def print_function(cycle, state, inputs, j, nextstate, conditions, variables):
+#we made our own print function
+#this was done to make the code more readable
+
+def print_function(cycle, state, inputs, j, nextstate, conditions, variables): #inputs are all the importent varibles
     print('Cycle: ' + str(cycle))
     print('Current State: ' + state)
     if len(inputs) != 0:
@@ -260,6 +263,7 @@ for i in range(len(variables)):
 print('State at simulation start: ' + state + '\n -----------------------------------')
 for cycle in range(iterations): #For-loop of cycles
     
+    # looking for inputs, the program will keep running if none is found
     try:
         if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
             for setinput in fsmd_stim['fsmdstimulus']['setinput']:
@@ -276,16 +280,18 @@ for cycle in range(iterations): #For-loop of cycles
         pass
 
     for j in range(len(fsmd[state])): #For-loop of conditions
-        if evaluate_condition(fsmd[state][j]['condition']):
-            execute_instruction(fsmd[state][j]['instruction'])
-            nextstate = fsmd[state][j]['nextstate']
+
+
+        if evaluate_condition(fsmd[state][j]['condition']):     #the current true condition is found
+            execute_instruction(fsmd[state][j]['instruction'])  #so the right instruction is executed
+            nextstate = fsmd[state][j]['nextstate']             #and the nextstate is determined
             break
         
     print_function(cycle, state, inputs, j, nextstate, conditions, variables)
     
     try:
-        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
-            if state == fsmd_stim['fsmdstimulus']['endstate']:
+        if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)): #endstates can be specified but are not necessary
+            if state == fsmd_stim['fsmdstimulus']['endstate']:   #the program will keep running with/out them
                 print('End-state reached.')
                 break
     except:
