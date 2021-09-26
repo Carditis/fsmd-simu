@@ -31,11 +31,11 @@
       <expression>var_B = in_B</expression>
     </operation>
     <operation>
-      <name>DECR_A</name>
+      <name>decr_A</name>
       <expression>var_A = var_A - 1</expression>
     </operation>
     <operation>
-      <name>DECR_B</name>
+      <name>decr_B</name>
       <expression>var_B = var_B - 1</expression>
     </operation>
     </operationlist>
@@ -50,16 +50,16 @@
       <expression>(var_A &gt; var_B) and ((var_A % var_B) != 0)</expression>
     </condition>
     <condition>
-      <name>MOD_ZERO</name>
+      <name>Modulus_Zero</name>
       <expression>((var_A % var_B) == 0) or ((var_B % var_A) == 0)</expression>
     </condition>
     <condition>
-      <name>NValid</name>
-      <expression>(var_A &lt;= 0) or (var_B &lt;= 0)</expression>
+      <name>NotValid</name>
+      <expression>not((var_A &gt; 0) and (var_B &gt; 0))</expression>
     </condition>
     <condition>
       <name>Valid</name>
-      <expression>not((var_A &lt;= 0) or (var_B &lt;= 0))</expression>
+      <expression>(var_A &gt; 0) and (var_B &gt; 0)</expression>
     </condition>
   </conditionlist>
 
@@ -74,7 +74,7 @@
 
     <VALIDATE>
       <transition>
-        <condition>NValid</condition>
+        <condition>NotValid</condition>
         <instruction>NOP</instruction>
         <nextstate>COMPLETE</nextstate>
       </transition>
@@ -87,7 +87,7 @@
 
     <TEST>
       <transition>
-        <condition>MOD_ZERO</condition>
+        <condition>Modulus_Zero</condition>
         <instruction>NOP</instruction>
         <nextstate>COMPLETE</nextstate>
       </transition>
@@ -106,7 +106,7 @@
     <DECRB>
       <transition>
         <condition>True</condition>
-        <instruction>DECR_B</instruction>
+        <instruction>decr_B</instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </DECRB>
@@ -114,7 +114,7 @@
     <DECRA>
       <transition>
         <condition>True</condition>
-        <instruction>DECR_A</instruction>
+        <instruction>decr_A</instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </DECRA>
