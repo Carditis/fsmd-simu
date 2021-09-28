@@ -287,7 +287,7 @@ for cycle in range(iterations): #For-loop of cycles
             nextstate = fsmd[state][j]['nextstate']             #and the nextstate is determined
             break
         
-    print_function(cycle, state, inputs, j, nextstate, conditions, variables)
+    print_function(cycle, state, inputs, j, nextstate, conditions, variables) #print function for printing ;)
     
     try:
         if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)): #endstates can be specified but are not necessary
