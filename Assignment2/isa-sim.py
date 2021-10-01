@@ -313,6 +313,7 @@ print('\n---Start of simulation---')
 ##      Write your code here      ##
 ####################################
 
+
 for current_cycle in range(max_cycles):
     operand = instructionMemory.read_opcode(program_counter)
     op1 = instructionMemory.read_operand_1(program_counter)
@@ -337,7 +338,7 @@ for current_cycle in range(max_cycles):
     elif operand == "LI":
         registerFile.write_register(op1, int(op2))
     elif operand == "LD":
-        registerFile.write_register(op1, dataMemory.read_data(op2))
+        registerFile.write_register(op1, dataMemory.read_data(registerFile.read_register(op2)))
     elif operand == "SD":
         dataMemory.write_data(op2, registerFile.read_register(op1))
     elif operand == "JR":
@@ -353,5 +354,5 @@ for current_cycle in range(max_cycles):
     elif operand == "END":
         print('Reached End command')
         break
-
+    program_counter += 1
 print('\n---End of simulation---\n')
