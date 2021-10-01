@@ -25,7 +25,7 @@
 20: LI R1, 23;  # Load the value 12 into R1
 21: JLT R1, R0, R3;  # Jump if R3>0
 22: LI R14, 255;  # Load the value 255 into R15 (never executed)
-23: LI R1, 26;  # Load the value 12 into R1
+23: LI R1, 26;  # Load the value 26 into R1
 24: JLT R1, R3, R0;  # Jump if R3<0
 25: LI R14, 255;  # Load the value 255 into R14 (executed)
 26: NOP;  # Do nothing
