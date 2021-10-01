@@ -343,16 +343,21 @@ for current_cycle in range(max_cycles):
         dataMemory.write_data(registerFile.read_register(op2), registerFile.read_register(op1))
     elif operand == "JR":
         program_counter = registerFile.read_register(op1)
+        program_counter -= 1
     elif operand == "JEQ":
         if(registerFile.read_register(op2) == registerFile.read_register(op3)):
             program_counter = registerFile.read_register(op1)
+            program_counter -= 1
     elif operand == "JLT":
         if(registerFile.read_register(op2) < registerFile.read_register(op3)):
-            program_counter = registerFile.read_register(op1)                
+            program_counter = registerFile.read_register(op1)
+            program_counter -= 1                
     elif operand == "NOP":
         pass
     elif operand == "END":
         print('Reached End command')
         break
     program_counter += 1
+    registerFile.print_all()
+    print("\n-")
 print('\n---End of simulation---\n')
