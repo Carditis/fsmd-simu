@@ -340,7 +340,7 @@ for current_cycle in range(max_cycles):
     elif operand == "LD":
         registerFile.write_register(op1, dataMemory.read_data(registerFile.read_register(op2)))
     elif operand == "SD":
-        dataMemory.write_data(op2, registerFile.read_register(op1))
+        dataMemory.write_data(registerFile.read_register(op2), registerFile.read_register(op1))
     elif operand == "JR":
         program_counter = registerFile.read_register(op1)
     elif operand == "JEQ":
