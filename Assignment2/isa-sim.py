@@ -1,7 +1,7 @@
 import sys
 import re
 
-print("\nWelcome to the ISA simulator! - Designed by <YOUR NAMES HERE>")
+print("\nWelcome to the ISA simulator! - Designed by Me and some friends")
 
 if len(sys.argv) < 4:
     print('Too few arguments.')
@@ -309,8 +309,44 @@ instructionMemory = InstructionMemory()
 
 print('\n---Start of simulation---')
 
-#####################################
+####################################
 ##      Write your code here      ##
 ####################################
+
+def executeIntructions(operand, )
+
+for current_cycle in range(max_cycles):
+    operand = instructionMemory.read_opcode(program_counter)
+    
+    try:
+        if operand == "ADD":
+
+        elif operand == "SUB":
+
+        elif operand == "OR":
+
+        elif operand == "AND":
+
+        elif operand == "NOT":        
+
+        elif operand == "LI":
+
+        elif operand == "LD":
+
+        elif operand == "SD":
+
+        elif operand == "JR":
+
+        elif operand == "JEQ":
+
+        elif operand == "JLT":
+
+        elif operand == "NOP":
+
+        elif operand == "END":
+
+
+    except:
+         print("Fail")
 
 print('\n---End of simulation---\n')
