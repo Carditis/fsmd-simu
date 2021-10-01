@@ -313,48 +313,45 @@ print('\n---Start of simulation---')
 ##      Write your code here      ##
 ####################################
 
-def executeIntructions(operand, op1, op2 op3):
-
 for current_cycle in range(max_cycles):
     operand = instructionMemory.read_opcode(program_counter)
-    
-    try:
-        if operand == "ADD":
-            addition = registerFile.read_register(op2) + registerFile.read_register(op3)
-            registerFile.write_register(op1, addition)
-        elif operand == "SUB":
-            subtraction = registerFile.read_register(op2) - registerFile.read_register(op3)
-            registerFile.write_register(op1, subtraction)
-        elif operand == "OR":
-            eller = registerFile.read_register(op2) | registerFile.read_register(op3)
-            registerFile.write_register(op1, eller)
-        elif operand == "AND":
-            ogs = registerFile.read_register(op2) & registerFile.read_register(op3)
-            registerFile.write_register(op1, ogs)
-        elif operand == "NOT":        
-            ikke = ~ registerFile.read_register(op2)
-            registerFile.write_register(op1, ikke)
-        elif operand == "LI":
-            registerFile.write_register(op1, something)
-        elif operand == "LD":
-            registerFile.write_register(op1, dataMemory.read_data(op2))
-        elif operand == "SD":
-            dataMemory.write_data(op2, registerFile.read_register(op1))
-        elif operand == "JR":
-            program_counter = registerFile.read_register(op1)
-        elif operand == "JEQ":
-            if(registerFile.read_register(op2) == registerFile.read_register(op3)):
-                program_counter = registerFile.read_register(op1)
-        elif operand == "JLT":
-            if(registerFile.read_register(op2) < registerFile.read_register(op3)):
-                program_counter = registerFile.read_register(op1)                
-        elif operand == "NOP":
-            return
-        elif operand == "END":
-            print('Reached End command')
-            break
+    op1 = instructionMemory.read_operand_1(program_counter)
+    op2 = instructionMemory.read_operand_2(program_counter)
+    op3 = instructionMemory.read_operand_3(program_counter)
 
-    except:
-         print("Fail")
+    if operand == "ADD":
+        addition = registerFile.read_register(op2) + registerFile.read_register(op3)
+        registerFile.write_register(op1, addition)
+    elif operand == "SUB":
+        subtraction = registerFile.read_register(op2) - registerFile.read_register(op3)
+        registerFile.write_register(op1, subtraction)
+    elif operand == "OR":
+        eller = registerFile.read_register(op2) | registerFile.read_register(op3)
+        registerFile.write_register(op1, eller)
+    elif operand == "AND":
+        ogs = registerFile.read_register(op2) & registerFile.read_register(op3)
+        registerFile.write_register(op1, ogs)
+    elif operand == "NOT":        
+        ikke = ~ registerFile.read_register(op2)
+        registerFile.write_register(op1, ikke)
+    elif operand == "LI":
+        registerFile.write_register(op1, int(op2))
+    elif operand == "LD":
+        registerFile.write_register(op1, dataMemory.read_data(op2))
+    elif operand == "SD":
+        dataMemory.write_data(op2, registerFile.read_register(op1))
+    elif operand == "JR":
+        program_counter = registerFile.read_register(op1)
+    elif operand == "JEQ":
+        if(registerFile.read_register(op2) == registerFile.read_register(op3)):
+            program_counter = registerFile.read_register(op1)
+    elif operand == "JLT":
+        if(registerFile.read_register(op2) < registerFile.read_register(op3)):
+            program_counter = registerFile.read_register(op1)                
+    elif operand == "NOP":
+        pass
+    elif operand == "END":
+        print('Reached End command')
+        break
 
 print('\n---End of simulation---\n')
