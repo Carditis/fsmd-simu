@@ -337,19 +337,22 @@ for current_cycle in range(max_cycles):
         elif operand == "LI":
             registerFile.write_register(op1, something)
         elif operand == "LD":
-
+            registerFile.write_register(op1, dataMemory.read_data(op2))
         elif operand == "SD":
-
+            dataMemory.write_data(op2, registerFile.read_register(op1))
         elif operand == "JR":
-
+            program_counter = registerFile.read_register(op1)
         elif operand == "JEQ":
-
+            if(registerFile.read_register(op2) == registerFile.read_register(op3)):
+                program_counter = registerFile.read_register(op1)
         elif operand == "JLT":
-
+            if(registerFile.read_register(op2) < registerFile.read_register(op3)):
+                program_counter = registerFile.read_register(op1)                
         elif operand == "NOP":
-
+            return
         elif operand == "END":
-
+            print('Reached End command')
+            break
 
     except:
          print("Fail")
