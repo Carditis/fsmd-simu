@@ -313,24 +313,29 @@ print('\n---Start of simulation---')
 ##      Write your code here      ##
 ####################################
 
-def executeIntructions(operand, )
+def executeIntructions(operand, op1, op2 op3):
 
 for current_cycle in range(max_cycles):
     operand = instructionMemory.read_opcode(program_counter)
     
     try:
         if operand == "ADD":
-
+            addition = registerFile.read_register(op2) + registerFile.read_register(op3)
+            registerFile.write_register(op1, addition)
         elif operand == "SUB":
-
+            subtraction = registerFile.read_register(op2) - registerFile.read_register(op3)
+            registerFile.write_register(op1, subtraction)
         elif operand == "OR":
-
+            eller = registerFile.read_register(op2) | registerFile.read_register(op3)
+            registerFile.write_register(op1, eller)
         elif operand == "AND":
-
+            ogs = registerFile.read_register(op2) & registerFile.read_register(op3)
+            registerFile.write_register(op1, ogs)
         elif operand == "NOT":        
-
+            ikke = ~ registerFile.read_register(op2)
+            registerFile.write_register(op1, ikke)
         elif operand == "LI":
-
+            registerFile.write_register(op1, something)
         elif operand == "LD":
 
         elif operand == "SD":
