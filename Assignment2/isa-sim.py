@@ -356,8 +356,12 @@ for current_cycle in range(max_cycles):
         pass
     elif operand == "END":
         print('Reached End command')
+        registerFile.print_all()
+        print("\n-")
+        dataMemory.print_used()
+        print("\n")
+        print("Program terminated in: " + str(current_cycle) + " cycles")
         break
     program_counter += 1
-    registerFile.print_all()
-    print("\n-")
+
 print('\n---End of simulation---\n')
