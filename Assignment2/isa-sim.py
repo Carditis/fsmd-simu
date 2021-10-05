@@ -362,6 +362,10 @@ for current_cycle in range(max_cycles):
         print("\n")
         print("Program terminated in: " + str(current_cycle) + " cycles")
         break
+    print("Current cycle: "+ str(current_cycle))
+    print("Program counter: "+str(program_counter))
+    print("Instruction to execute: "+operand+"\n---------------------------")
     program_counter += 1
+        
 
 print('\n---End of simulation---\n')
