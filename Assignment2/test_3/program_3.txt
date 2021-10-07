@@ -16,7 +16,7 @@
 10: END;
 
 # Start of for-loop
-11: JLT R6, R7, R4:  # If i is out of range => jump to number IS prime
+11: JLT R6, R7, R4;  # If i is out of range => jump to number IS prime
 12: SUB R2, R2, R4;  # R2 = Number - i
 13: JLT R9, R4, R2;  # Do subtraction again if R8 is greater than i
 14: JEQ R5, R2, R0;  # If remainder is 0, jump to number is not a prime
