@@ -4,7 +4,7 @@
 2: LI R3, 11;  # Sets R3 to 11 = start of for-loop
 3: LI R4, 2;  # Sets R4 to 2 = i
 4: LI R5, 9;  # Sets R5 to 9 = not a prime
-5: LI R6, 18;  # Sets R6 to 18 = IS a prime
+5: LI R6, 19;  # Sets R6 to 19 = IS a prime
 6: LI R9, 12;  # Sets R9 to 12 = do subtraction
 7: SUB R7, R2, R1;  # Sets R5 to number - 1 = num-1
 
@@ -19,13 +19,14 @@
 11: JLT R6, R7, R4;  # If i is out of range => jump to number IS prime
 12: SUB R2, R2, R4;  # R2 = Number - i
 13: JLT R9, R4, R2;  # Do subtraction again if R8 is greater than i
-14: JEQ R5, R2, R0;  # If remainder is 0, jump to number is not a prime
+14: JEQ R9, R4, R2;
+15: JEQ R5, R2, R0;  # If remainder is 0, jump to number is not a prime
 
 # Prepare to run loop again
-15: LD R2, R0;  # Reset R2 to number
-16: ADD R4, R4, R1;  # i++
-17: JR R3;  # Jump to loop
+16: LD R2, R0;  # Reset R2 to number
+17: ADD R4, R4, R1;  # i++
+18: JR R3;  # Jump to loop
 
 # If number IS a prime
-18: SD R1, R1;  # Stores the number 1 in memory location 1
-19: END;
+19: SD R1, R1;  # Stores the number 1 in memory location 1
+20: END;
