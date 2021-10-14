@@ -1,5 +1,5 @@
 # The initial content of the data memory
 # The format is: <data mem. address>: <memory value>;
 # All numbers are decimal 
-0: 10000;
+0: 1000;
 1: 0;
