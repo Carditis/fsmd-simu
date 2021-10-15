@@ -313,48 +313,49 @@ print('\n---Start of simulation---')
 ##      Write your code here      ##
 ####################################
 
-
+#the main loop, runs until max_cycles or or end state
 for current_cycle in range(max_cycles):
-    operand = instructionMemory.read_opcode(program_counter)
-    op1 = instructionMemory.read_operand_1(program_counter)
+    opcode = instructionMemory.read_opcode(program_counter) #reading the opcode
+    op1 = instructionMemory.read_operand_1(program_counter) #and then the operands
     op2 = instructionMemory.read_operand_2(program_counter)
     op3 = instructionMemory.read_operand_3(program_counter)
 
-    if operand == "ADD":
+    #looking for whichever opcode to use and executes its instruction
+    if opcode == "ADD":
         addition = registerFile.read_register(op2) + registerFile.read_register(op3)
         registerFile.write_register(op1, addition)
-    elif operand == "SUB":
+    elif opcode == "SUB":
         subtraction = registerFile.read_register(op2) - registerFile.read_register(op3)
         registerFile.write_register(op1, subtraction)
-    elif operand == "OR":
+    elif opcode == "OR":
         eller = registerFile.read_register(op2) | registerFile.read_register(op3)
         registerFile.write_register(op1, eller)
-    elif operand == "AND":
+    elif opcode == "AND":
         ogs = registerFile.read_register(op2) & registerFile.read_register(op3)
         registerFile.write_register(op1, ogs)
-    elif operand == "NOT":        
+    elif opcode == "NOT":        
         ikke = ~ registerFile.read_register(op2)
         registerFile.write_register(op1, ikke)
-    elif operand == "LI":
+    elif opcode == "LI":
         registerFile.write_register(op1, int(op2))
-    elif operand == "LD":
+    elif opcode == "LD":
         registerFile.write_register(op1, dataMemory.read_data(registerFile.read_register(op2)))
-    elif operand == "SD":
+    elif opcode == "SD":
         dataMemory.write_data(registerFile.read_register(op2), registerFile.read_register(op1))
-    elif operand == "JR":
-        program_counter = registerFile.read_register(op1)
-        program_counter -= 1
-    elif operand == "JEQ":
+    elif opcode == "JR":
+        program_counter = registerFile.read_register(op1) #Here we jump to a different program line
+        program_counter -= 1                              #as the program_counter gets incremented, we have to decrement here
+    elif opcode == "JEQ":
         if(registerFile.read_register(op2) == registerFile.read_register(op3)):
             program_counter = registerFile.read_register(op1)
             program_counter -= 1
-    elif operand == "JLT":
+    elif opcode == "JLT":
         if(registerFile.read_register(op2) < registerFile.read_register(op3)):
             program_counter = registerFile.read_register(op1)
             program_counter -= 1                
-    elif operand == "NOP":
+    elif opcode == "NOP":
         pass
-    elif operand == "END":
+    elif opcode == "END":   #this opcode is special as it terminates the program and prints the end values
         print('Reached End command')
         registerFile.print_all()
         print("\n-")
@@ -362,9 +363,10 @@ for current_cycle in range(max_cycles):
         print("\n")
         print("Program terminated in: " + str(current_cycle) + " cycles")
         break
+    #each cycle will print some information and increment the program_counter
     print("Current cycle: "+ str(current_cycle))
     print("Program counter: "+str(program_counter))
-    print("Instruction to execute: "+operand+"\n---------------------------")
+    print("Instruction to execute: "+opcode+"\n---------------------------")
     program_counter += 1
         
 
