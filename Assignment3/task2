@@ -1,0 +1,28 @@
+import machine
+import time
+pin1 = machine.Pin(16, machine.Pin.OUT)
+pin2 = machine.Pin(17, machine.Pin.OUT)
+pin3 = machine.Pin(21, machine.Pin.OUT)
+input1 = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
+led = 0
+lastButton = 0 
+
+while(True):
+    button = input1.value()
+    if (button != lastButton):
+        led += 1    
+        if led == 3:
+            led = 0
+        if led == 0:
+            pin1.value(1)
+            pin2.value(0)
+            pin3.value(0)
+        elif led == 1:
+            pin1.value(0)
+            pin2.value(1)
+            pin3.value(0)
+        elif led == 2:
+            pin1.value(0)
+            pin2.value(0)
+            pin3.value(1)
+    lastButton = button
