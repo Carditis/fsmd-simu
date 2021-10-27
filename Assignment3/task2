@@ -26,3 +26,4 @@ while(True):
             pin2.value(0)
             pin3.value(1)
     lastButton = button
+    
