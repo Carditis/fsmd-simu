@@ -1,0 +1,8 @@
+import machine
+import time
+while True:
+
+    i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
+
+    i2c.readfrom(24, 8)
+    time.sleep(1)

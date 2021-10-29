@@ -9,7 +9,7 @@ lastButton = 0
 
 while(True):
     button = input1.value()
-    if (button != lastButton):
+    if (button == 0 and lastButton == 1):
         led += 1    
         if led == 3:
             led = 0
@@ -25,5 +25,5 @@ while(True):
             pin1.value(0)
             pin2.value(0)
             pin3.value(1)
+    time.sleep(0.001)
     lastButton = button
-    
