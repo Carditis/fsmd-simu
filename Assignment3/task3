@@ -1,8 +1,22 @@
 import machine
 import time
+data = bytearray(2)
+
+def converter(data):
+    value = (data[0] << 8) | data[1]
+    temp = (value & 0xFFF) / 16.0
+    if value & 0x1000:
+        temp -=256.0
+    return temp
+
 while True:
 
     i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
 
-    i2c.readfrom(24, 8)
+    address = 24
+    temp_reg = 5
+    res_reg = 8
+
+    i2c.readfrom_mem(address, temp_reg, data)
+    print(converter(data))
     time.sleep(1)
