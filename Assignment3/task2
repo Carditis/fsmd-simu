@@ -1,3 +1,4 @@
+#Initialization
 import machine
 import time
 pin1 = machine.Pin(16, machine.Pin.OUT)
@@ -7,23 +8,24 @@ input1 = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
 led = 0
 lastButton = 0 
 
+#Main loop
 while(True):
     button = input1.value()
-    if (button == 0 and lastButton == 1):
+    if (button == 0 and lastButton == 1): #If button is pressed down
         led += 1    
-        if led == 3:
+        if led == 3:    #Starts over led counter if the third one has been reached
             led = 0
         if led == 0:
-            pin1.value(1)
+            pin1.value(1)   #First led
             pin2.value(0)
             pin3.value(0)
         elif led == 1:
             pin1.value(0)
-            pin2.value(1)
+            pin2.value(1)   #Second led
             pin3.value(0)
         elif led == 2:
             pin1.value(0)
             pin2.value(0)
-            pin3.value(1)
+            pin3.value(1)   #Third led
     time.sleep(0.001)
     lastButton = button

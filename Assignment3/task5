@@ -1,3 +1,4 @@
+#Initializations
 import machine, neopixel
 import time
 data = bytearray(2)
@@ -9,6 +10,7 @@ res_reg = 8
 tempu = 0.0
 potentialInput = machine.ADC(machine.Pin(34))
 
+#Reads temperature from SDA and SCL pins
 def converter(data):
     value = (data[0] << 8) | data[1]
     temp = (value & 0xFFF) / 16.0
@@ -16,18 +18,19 @@ def converter(data):
         temp -=256.0
     return temp
 
+#Main loop
 while True:
     i2c.readfrom_mem_into(address, temp_reg, data)
     tempu = converter(data)
-    brightnessMultiplier = potentialInput.read() / 4095
+    brightnessMultiplier = potentialInput.read() / 4095 #Brightness multiplier controlled by potentiometer
     print(tempu)
-    if tempu < 25:
+    if tempu < 25:  #Lights up neopixels green if temp < 25, with brightness controlled by potentiometer
         np[0] = (int(brightnessMultiplier*255),0,0)
         np[1] = (int(brightnessMultiplier*255),0,0)
-    elif tempu < 28:
+    elif tempu < 28:    #Lights up neopixels yellow if 25 <= temp < 28, with brightness controlled by potentiometer
         np[0] = (int(brightnessMultiplier*255),int(brightnessMultiplier*255),0)
         np[1] = (int(brightnessMultiplier*255),int(brightnessMultiplier*255),0)
-    else:
+    else:   #Lights up neopixels red if temp >= 28, with brightness controlled by potentiometer
         np[0] = (0,int(brightnessMultiplier*255),0)
         np[1] = (0,int(brightnessMultiplier*255),0)
     print(brightnessMultiplier)

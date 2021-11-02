@@ -1,3 +1,4 @@
+#Initializations
 import machine, neopixel
 import time
 data = bytearray(2)
@@ -8,6 +9,7 @@ temp_reg = 5
 res_reg = 8
 tempu = 0.0
 
+#Reads temperature from SDA and SCL pins
 def converter(data):
     value = (data[0] << 8) | data[1]
     temp = (value & 0xFFF) / 16.0
@@ -15,17 +17,18 @@ def converter(data):
         temp -=256.0
     return temp
 
+#Main loop
 while True:
     i2c.readfrom_mem_into(address, temp_reg, data)
     tempu = converter(data)
     print(tempu)
-    if tempu < 25:
+    if tempu < 25:  #Lights up neopixels green if temp < 25
         np[0] = (255,0,0)
         np[1] = (255,0,0)
-    elif tempu < 28:
+    elif tempu < 28:    #Lights up neopixels yellow if 25 <= temp < 28
         np[0] = (255,255,0)
         np[1] = (255,255,0)
-    else:
+    else:   #Lights up neopixels red if temp >= 28
         np[0] = (0,255,0)
         np[1] = (0,255,0)
     np.write()
