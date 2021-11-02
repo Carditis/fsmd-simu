@@ -1,6 +1,12 @@
-import machine
+import machine, neopixel
 import time
 data = bytearray(2)
+i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
+np = neopixel.NeoPixel(machine.Pin(27),2)
+address = 24
+temp_reg = 5
+res_reg = 8
+tempu = 0.0
 
 def converter(data):
     value = (data[0] << 8) | data[1]
@@ -10,13 +16,17 @@ def converter(data):
     return temp
 
 while True:
-
-    i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
-
-    address = 24
-    temp_reg = 5
-    res_reg = 8
-
-    i2c.readfrom_mem(address, temp_reg, data)
-    print(converter(data))
+    i2c.readfrom_mem_into(address, temp_reg, data)
+    tempu = converter(data)
+    print(tempu)
+    if tempu < 25:
+        np[0] = (255,0,0)
+        np[1] = (255,0,0)
+    elif tempu < 28:
+        np[0] = (255,255,0)
+        np[1] = (255,255,0)
+    else:
+        np[0] = (0,255,0)
+        np[1] = (0,255,0)
+    np.write()
     time.sleep(1)

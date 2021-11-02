@@ -1,6 +1,14 @@
 import machine
 import time
 data = bytearray(2)
+i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
+address = 24
+temp_reg = 5
+res_reg = 8
+tempu = 0.0
+pin1 = machine.Pin(16, machine.Pin.OUT)
+pin2 = machine.Pin(17, machine.Pin.OUT)
+pin3 = machine.Pin(21, machine.Pin.OUT)
 
 def converter(data):
     value = (data[0] << 8) | data[1]
@@ -10,13 +18,19 @@ def converter(data):
     return temp
 
 while True:
-
-    i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
-
-    address = 24
-    temp_reg = 5
-    res_reg = 8
-
-    i2c.readfrom_mem(address, temp_reg, data)
-    print(converter(data))
+    i2c.readfrom_mem_into(address, temp_reg, data)
+    tempu = converter(data)
+    print(tempu)
+    if tempu < 25:
+        pin1.value(1)
+        pin2.value(0)
+        pin3.value(0)
+    elif tempu < 28:
+        pin1.value(0)
+        pin2.value(1)
+        pin3.value(0)
+    else:
+        pin1.value(0)
+        pin2.value(0)
+        pin3.value(1)
     time.sleep(1)
