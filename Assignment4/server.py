@@ -8,35 +8,35 @@ ap.active (True) #Activates network interface
 ap.config (essid = 'bestNet20') #essid = wifi access point name
 ap.config (authmode = 3, password = 'supersejtpass') #
 
-pins = [machine.Pin(i, machine.Pin.IN) for i in (0, 2, 4, 5, 12, 13, 14, 15)]
+pins = [machine.Pin(i, machine.Pin.IN) for i in (0, 2, 4, 5, 12, 13, 14, 15)] #we make the pins ready
 
 html = """<!DOCTYPE html>
 <html>
     <head> <title>ESP32 Pins</title> </head>
     <body> <h1>ESP32 Pins</h1>
-        <table border="1"> <tr><th>Pin</th><th>Value</th></tr> %s </table>
+        <table border="1"> <tr><th>Pind</th><th>Value</th></tr> %s </table>
     </body>
 </html>
 """
 
-addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1] #return a list of arrays, we take the last element in the first array
 
-s = socket.socket()
-s.bind(addr)
-s.listen(1)
+s = socket.socket() #creates a new socket
+s.bind(addr)        #binds the socket to a specific address
+s.listen(1)         #starts to listen on the socket
 
 print('listening on', addr)
 
 while True:
-    cl, addr = s.accept()
+    cl, addr = s.accept()   #now we start to accept connections
     print('client connected from', addr)
     cl_file = cl.makefile('rwb', 0)
     while True:
         line = cl_file.readline()
-        #print(line)
+        print(line)
         if not line or line == b'\r\n':
             break
-    rows = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
-    response = html % '\n'.join(rows)
-    cl.send(response)
+    rows = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]  #the pin values are read and updates the array
+    response = html % '\n'.join(rows)                                               #the array is concatenated with the html from line 13
+    cl.send(response)                                                               #now we send it
     cl.close()
