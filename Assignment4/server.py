@@ -4,8 +4,8 @@ import socket
 
 ap = network.WLAN (network.AP_IF)
 ap.active (True)
-ap.config (essid = 'ESP32-WIFI-NAME')
-ap.config (authmode = 3, password = 'WiFi-password')
+ap.config (essid = 'bestNet20')
+ap.config (authmode = 3, password = '123456')
 
 pins = [machine.Pin(i, machine.Pin.IN) for i in (0, 2, 4, 5, 12, 13, 14, 15)]
 
