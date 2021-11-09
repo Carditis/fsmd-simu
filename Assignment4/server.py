@@ -2,10 +2,11 @@ import machine
 import network
 import socket
 
-ap = network.WLAN (network.AP_IF)
-ap.active (True)
-ap.config (essid = 'bestNet20')
-ap.config (authmode = 3, password = 'supersejtpass')
+ap = network.WLAN (network.AP_IF) #Creates access point. 
+#We create an instance of the class WLAN. The access point allows other clients to connect to the wifi
+ap.active (True) #Activates network interface
+ap.config (essid = 'bestNet20') #essid = wifi access point name
+ap.config (authmode = 3, password = 'supersejtpass') #
 
 pins = [machine.Pin(i, machine.Pin.IN) for i in (0, 2, 4, 5, 12, 13, 14, 15)]
 
