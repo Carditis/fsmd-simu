@@ -1,0 +1,4 @@
+import uos
+uos.listdir()
+uos.remove("main.py")
+uos.listdir()
