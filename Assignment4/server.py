@@ -45,6 +45,7 @@ print('listening on', addr)
 
 while True:
     button = input1.value()
+    if not button:
     i2c.readfrom_mem_into(address, temp_reg, data)
     tempu = converter(data)
     print(tempu)
@@ -60,19 +61,60 @@ while True:
         pins[0].value(0)
         pins[1].value(0)
         pins[2].value(1)
-        
+
+    pinDict = {"16":pins[0].value(), "17":pins[1].value(), "18":pins[2].value()}
+    buttonDict = {"button":button}
+    tempDict = {"Temperature":tempu}
+    resources = [pinDict, buttonDict, tempDict]
+
     cl, addr = s.accept()
     print('client connected from', addr)
     cl_file = cl.makefile('rwb', 0)
     while True:
         line = cl_file.readline()
-        #print(line)
-        if not line or line == b'\r\n':
+        print(line)
+        if line == b'GET / resources\r\n':
+            response = "\{Pin 16\:%d, Pin 17\:%d, Pin 18\:%d, Button\:%d, Temperature\:%f\}" % (pins[0].value(), pins[1].value(), pins[2].value(), button, tempu)
+            cl.send(response)
+            cl.close()
             break
-    rows1 = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
-    rows2 = ['<tr><td>%s</td><td>%d</td></tr>' % ("Temperature", tempu)]
-    rows3 = ['<tr><td>%s</td><td>%d</td></tr>' % ("Button state", button)]
-    rows = rows1 + rows2 + rows3
-    response = html % '\n'.join(rows)
-    cl.send(response)
-    cl.close()
+        elif line == b'GET / resources/pins\r\n':
+            response = "\{Pin 16\:%d, Pin 17\:%d, Pin 18\:%d\}" % (pins[0].value(), pins[1].value(), pins[2].value())
+            cl.send(response)
+            cl.close()
+            break
+        elif line == b'GET / resources/pins/16\r\n':
+            response = "\{Pin 16\:%d\}" % pins[0].value()
+            cl.send(response)
+            cl.close()
+            break
+        elif line == b'GET / resources/pins/17\r\n':
+            response = "\{Pin 17\:%d\}" % pins[1].value()
+            cl.send(response)
+            cl.close()
+            break
+        elif line == b'GET / resources/pins/18\r\n':
+            response = "\{Pin 18\:%d\}" % pins[2].value()
+            cl.send(response)
+            cl.close()
+            break
+        elif line == b'GET / resources/temp\r\n':
+            response = "\{Temperature\:%f\}" % tempu
+            cl.send(response)
+            cl.close()
+            break
+        elif line == b'GET / resources/button\r\n':
+            response = "\{Button\:%d\}" % button
+            cl.send(response)
+            cl.close()
+            break
+        if not line or line == b'\r\n':
+            rows1 = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
+            rows2 = ['<tr><td>%s</td><td>%f</td></tr>' % ("Temperature", tempu)]
+            rows3 = ['<tr><td>%s</td><td>%d</td></tr>' % ("Button state", button)]
+            rows = rows1 + rows2 + rows3
+            response = html % '\n'.join(rows)
+            cl.send(response)
+            cl.close()
+            break
+    
