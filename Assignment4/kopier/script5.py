@@ -56,12 +56,6 @@ while True:
     tempu = converter(data)
     print(tempu)
 
-    #adding the desired values to dictionaries for accesability when called from the server
-    pinDict = {"16":pins[0].value(), "17":pins[1].value(), "18":pins[2].value()}
-    buttonDict = {"button":button}
-    tempDict = {"Temperature":tempu}
-    resources = [pinDict, buttonDict, tempDict]
-
     #wait for incomming connection
     cl, addr = s.accept()
     print('client connected from', addr)
