@@ -1,22 +1,23 @@
-# importing the requests library
-import requests
-#import websocket
-import time
+import socket
+import time 
 
-while True:
-    # importing the requests library
-    
-    # api-endpoint
-    URL = "http://192.168.4.1/"
-    
-    # defining a params dict for the parameters to be sent to the API
-    PARAMS = {'api'}
-    
-    # sending get request and saving the response as response object
-    r = requests.get(url = URL, params = PARAMS)
-    
-    # extracting data in json format
-    #data = r.json()
-    
-    #print(data)
-    time.sleep(3)
+request = b"GET / resources\r\n"
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+
+s.connect(("192.168.4.1", 80)) 
+s.settimeout(2) 
+s.send(request) 
+
+try: 
+    result = s.recv(10000) 
+    while (len(result) > 0): 
+        #print(result) 
+        x = str(result)
+        result = s.recv(10000) 
+except: 
+    pass 
+
+s.close() 
+
+x = x.replace("\\","")
+x = x[2:-1]

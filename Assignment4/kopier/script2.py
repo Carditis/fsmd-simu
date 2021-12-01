@@ -1,0 +1,78 @@
+import machine
+import network
+import socket
+import time
+
+data = bytearray(2)
+input1 = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
+i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
+address = 24
+temp_reg = 5
+res_reg = 8
+tempu = 0.0
+
+#Reads temperature from SDA and SCL pins
+def converter(data):
+    value = (data[0] << 8) | data[1]
+    temp = (value & 0xFFF) / 16.0
+    if value & 0x1000:
+        temp -=256.0
+    return temp
+
+ap = network.WLAN (network.AP_IF)
+ap.active (True)
+ap.config (essid = 'bestNet20')
+ap.config (authmode = 3, password = 'password')
+
+pins = [machine.Pin(i, machine.Pin.OUT) for i in (16, 17, 21)]
+
+html = """<!DOCTYPE html>
+<html>
+    <head> <title>ESP32 Pins</title> </head>
+    <body> <h1>ESP32 Pins</h1>
+        <table border="1"> <tr><th>Variable</th><th>Value</th></tr> %s </table>
+    </body>
+</html>
+"""
+
+addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+
+s = socket.socket()
+s.bind(addr)
+s.listen(1)
+
+print('listening on', addr)
+
+while True:
+    button = input1.value()
+    i2c.readfrom_mem_into(address, temp_reg, data)
+    tempu = converter(data)
+    print(tempu)
+    if tempu < 25:
+        pins[0].value(1)
+        pins[1].value(0)
+        pins[2].value(0)
+    elif tempu < 28:
+        pins[0].value(0)
+        pins[1].value(1)
+        pins[2].value(0)
+    else:
+        pins[0].value(0)
+        pins[1].value(0)
+        pins[2].value(1)
+        
+    cl, addr = s.accept()
+    print('client connected from', addr)
+    cl_file = cl.makefile('rwb', 0)
+    while True:
+        line = cl_file.readline()
+        #print(line)
+        if not line or line == b'\r\n':
+            break
+    rows1 = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
+    rows2 = ['<tr><td>%s</td><td>%d</td></tr>' % ("Temperature", tempu)]
+    rows3 = ['<tr><td>%s</td><td>%d</td></tr>' % ("Button state", button)]
+    rows = rows1 + rows2 + rows3
+    response = html % '\n'.join(rows)
+    cl.send(response)
+    cl.close()

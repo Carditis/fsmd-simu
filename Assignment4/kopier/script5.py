@@ -1,4 +1,4 @@
-import machine
+import machine, neopixel
 import network
 import socket
 import time
@@ -6,6 +6,7 @@ import time
 data = bytearray(2)
 input1 = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
 i2c = machine.I2C(scl=machine.Pin(22),sda=machine.Pin(23))
+np = neopixel.NeoPixel(machine.Pin(27),2)
 address = 24
 temp_reg = 5
 res_reg = 8
@@ -48,18 +49,6 @@ while True:
     i2c.readfrom_mem_into(address, temp_reg, data)
     tempu = converter(data)
     print(tempu)
-    if tempu < 25:
-        pins[0].value(1)
-        pins[1].value(0)
-        pins[2].value(0)
-    elif tempu < 28:
-        pins[0].value(0)
-        pins[1].value(1)
-        pins[2].value(0)
-    else:
-        pins[0].value(0)
-        pins[1].value(0)
-        pins[2].value(1)
 
     pinDict = {"16":pins[0].value(), "17":pins[1].value(), "18":pins[2].value()}
     buttonDict = {"button":button}
@@ -107,6 +96,51 @@ while True:
             cl.send(response)
             cl.close()
             break
+        elif line == b'PATCH / LED/green/on\r\n':
+            pins[0].value(1)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/green/off\r\n':
+            pins[0].value(0)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/yellow/on\r\n':
+            pins[1].value(1)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/yellow/off\r\n':
+            pins[1].value(0)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/red/on\r\n':
+            pins[2].value(1)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/red/off\r\n':
+            pins[2].value(0)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/all/on\r\n':
+            pins[0].value(1)
+            pins[1].value(1)
+            pins[2].value(1)
+            cl.close()
+            break
+        elif line == b'PATCH / LED/all/off\r\n':
+            pins[0].value(0)
+            pins[1].value(0)
+            pins[2].value(0)
+            cl.close()
+            break
+        elif "NEO" in str(line):
+            rgb = [int(str(line)[14:17]), int(str(line)[17:20]), int(str(line)[20:23])]
+            print(rgb)
+            np[0] = (rgb[0],rgb[1],rgb[2])
+            np[1] = (rgb[0],rgb[1],rgb[2])
+            np.write()
+            cl.close()
+            break
+
         if not line or line == b'\r\n':
             rows1 = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
             rows2 = ['<tr><td>%s</td><td>%f</td></tr>' % ("Temperature", tempu)]
