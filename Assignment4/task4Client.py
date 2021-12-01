@@ -28,11 +28,12 @@ while True:
     
     s.close() 
     
-    x = x.replace("\\","")
-    x = x[2:-1]
-    temp = float(x[13:-1])
-    y = str(datetime.now())[:-7]
-    row = [y, i, temp]
+    # This part specifies in which format the data should be logged in the CSV-file
+    x = x.replace("\\","")          # Remove escape characters, like backslashes
+    x = x[2:-1]                     # Crops to the dictionary part
+    temp = float(x[13:-1])          # Crops to the temperature value
+    y = str(datetime.now())[:-7]    # Generates time-stamp from system time. Rounded to show fewer decimals.
+    row = [y, i, temp]              # Defines the row format.
     
     f = open('C:/Users/emilp/Desktop/cyber server csv/Temps.csv', 'a')
     writer = csv.writer(f, delimiter=',', lineterminator='\n')
